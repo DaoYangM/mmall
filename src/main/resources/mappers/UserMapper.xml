@@ -35,8 +35,8 @@
       update_time)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
-      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER},now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.mmall.pojo.User" >
     insert into mmall_user
@@ -98,10 +98,10 @@
         #{role,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+       now(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -133,7 +133,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time =now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -148,7 +148,44 @@
       answer = #{answer,jdbcType=VARCHAR},
       role = #{role,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="checkUseraame" parameterType="java.lang.String" resultType="int">
+    SELECT COUNT(*) FROM mmall_user WHERE username = #{username};
+  </select>
+
+  <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_user WHERE username = #{username} AND password = #{password}
+  </select>
+
+  <select id="checkEmail" parameterType="String" resultType="int" >
+     SELECT COUNT(*) FROM mmall_user WHERE email = #{email};
+  </select>
+
+  <select id="getQuestion" parameterType="String" resultType="String" >
+    SELECT question FROM mmall_user WHERE username = #{username};
+  </select>
+
+    <select id="getAnswer" parameterType="String" resultType="String" >
+    SELECT answer FROM mmall_user WHERE username = #{username};
+    </select>
+
+  <select id="getUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_user WHERE username = #{username};
+  </select>
+
+  <update id="updateInformation" parameterType="com.mmall.pojo.User" >
+    update mmall_user
+    set
+      question = #{question,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
