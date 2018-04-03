@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpSession;
 
 @Aspect
+@Component
 public class UserLoginAOP {
 
     private boolean isSuccess;
@@ -20,6 +21,7 @@ public class UserLoginAOP {
 
     @Pointcut(value = "@annotation(com.mmall.common.NeedLogin)")
     private void userlogin() {}
+
     @Before("userlogin())")
     public void checkLogin(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();

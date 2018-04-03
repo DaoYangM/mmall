@@ -16,8 +16,6 @@
     <!--<context:annotation-config/>-->
     <!--<aop:aspectj-autoproxy/>-->
 
-    <bean id="loginAOP" class="com.mmall.aop.UserLoginAOP" />
-
     <import resource="applicationContext-datasource.xml"/>
 
 </beans>

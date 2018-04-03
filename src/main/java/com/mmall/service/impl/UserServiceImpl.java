@@ -24,9 +24,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserLoginAOP loginAOP;
 
-    @Autowired
-    private HttpSession session;
-
     @Override
     public boolean checkAdmin(User user) {
 
